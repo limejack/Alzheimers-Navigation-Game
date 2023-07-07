@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class planeController : MonoBehaviour
 {
     Rigidbody rb;
@@ -25,7 +26,15 @@ public class planeController : MonoBehaviour
         velocity += x*Time.deltaTime;
         rb.velocity = Quaternion.Euler(transform.eulerAngles)*new Vector3(0,0,velocity);
         float temp = transform.eulerAngles.x;
+
+        if(transform.rotation.eulerAngles.z > 90)
+        {
+            transform.eulerAngles -= new Vector3(0,y*Time.deltaTime*yawSpeed,0);
+        }
+        else
+        {
+            transform.eulerAngles += new Vector3(0,y*Time.deltaTime*yawSpeed,0);
+        }
         transform.Rotate(-z*Time.deltaTime*yawSpeed,0,0);
-        transform.eulerAngles += new Vector3(0,y*Time.deltaTime*yawSpeed,0);
     }
 }
